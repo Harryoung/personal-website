@@ -1,0 +1,63 @@
+---
+import Header from '../components/Header.astro';
+import Project from '../components/Project.astro';
+import Sidebar from '../components/Sidebar.astro';
+const projects = [
+  {
+    title: "efka - AI驱动的知识管理系统",
+    desc: [
+      "基于Claude Agent SDK开发的开源知识管理系统，无向量嵌入，Agent驱动",
+      "独特的文件系统架构，让AI代理直接访问和管理个人知识库",
+      "结果更可靠，避免了传统RAG方案的幻觉问题",
+      "GitHub: https://github.com/Harryoung/efka"
+    ],
+    tech: ["Claude Agent SDK", "Python", "文件系统架构", "Agent驱动", "开源"]
+  },
+  {
+    title: "个人网站 (本站)",
+    desc: [
+      "使用Astro + Codefolio主题构建的个人作品集网站",
+      "静态站点生成，SEO友好，快速加载",
+      "展示职业经历、项目作品和个人技能"
+    ],
+    tech: ["Astro", "静态网站", "GitHub Pages"]
+  }
+];
+---
+
+<!DOCTYPE html>
+<html
+>
+  <Header title="个人项目 | 尤江彬" />
+  <body>
+    <div class="content">
+        <Sidebar selectedItem="personal-projects" />
+      <nav class="main">
+        <div class="container">
+          <div class="back-nav-container">
+            <a href="/" class="back-nav-button w-inline-block"
+              ><img src="/assets/back.svg" loading="lazy" alt="" class="back-nav-img" />
+              <div>Back</div></a
+            >
+          </div>
+          <div class="content-container">
+            <h1>个人项目</h1>
+            <section class="items-container">
+                <div class="resouce-items">
+                    {projects.map(project => (
+                      <Project 
+                        title={project.title} 
+                        desc={project.desc}
+                        tech={project.tech}
+                      />
+                    ))}
+                  </div>
+            </section>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+  </body>
+</html>

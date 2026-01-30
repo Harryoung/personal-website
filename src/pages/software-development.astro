@@ -1,0 +1,72 @@
+---
+import Header from "../components/Header.astro";
+import Project from "../components/Project.astro";
+import Sidebar from "../components/Sidebar.astro";
+const projects = [
+  {
+    title: "星辰·偕作 (超级智能体本地端)",
+    desc: [
+      "全面负责产品规划与推进，对标Claude Cowork，主打toB办公提效场景",
+      "推动产品架构重构，优化用户体验与系统性能",
+      "深入理解大模型能力边界，设计符合实际业务场景的AI工作流",
+      "协调技术、设计、运营团队，推动产品快速迭代落地"
+    ],
+    tech: ["大模型应用开发", "AI产品管理", "产品架构", "工作流设计", "跨团队协作"]
+  },
+  {
+    title: "飞桨技术产品经理 (百度 P5)",
+    desc: [
+      "负责飞桨(PaddlePaddle)深度学习框架的技术产品工作",
+      "推动AI开发者生态建设，优化开发者体验",
+      "参与技术文档、教程体系的完善与推广"
+    ],
+    tech: ["深度学习框架", "开发者生态", "技术文档", "AI推广"]
+  },
+  {
+    title: "AI遥感室主任 (中国资源卫星应用中心)",
+    desc: [
+      "负责遥感卫星地面系统的AI能力建设",
+      "领导团队开发遥感影像智能处理与分析系统",
+      "推动深度学习在遥感领域的落地应用"
+    ],
+    tech: ["遥感技术", "深度学习", "团队管理", "系统架构", "Python"]
+  }
+];
+---
+
+<!DOCTYPE html>
+<html
+>
+  <Header title="AI产品管理 | 尤江彬" />
+  <body>
+    <div class="content">
+        <Sidebar selectedItem="software-development" />
+      <nav class="main">
+        <div class="container">
+          <div class="back-nav-container">
+            <a href="/" class="back-nav-button w-inline-block"
+              ><img src="/assets/back.svg" loading="lazy" alt="" class="back-nav-img" />
+              <div>Back</div></a
+            >
+          </div>
+          <div class="content-container">
+            <h1>AI产品管理</h1>
+            <section class="items-container">
+                <div class="resouce-items">
+                    {projects.map(project => (
+                      <Project 
+                        title={project.title} 
+                        desc={project.desc}
+                        tech={project.tech}
+                      />
+                    ))}
+                  </div>
+            </section>
+          </div>
+        </div>
+      </nav>
+    </div>
+
+    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
+  </body>
+</html>
