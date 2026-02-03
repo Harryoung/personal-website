@@ -1,9 +1,15 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
+import GoogleAnalytics from './GoogleAnalytics.astro';
+
 interface HeaderProps {
   title: string;
 }
 const { title } = Astro.props as HeaderProps;
+
+// Google Analytics Measurement ID
+// Get yours from: https://analytics.google.com/
+const GA_MEASUREMENT_ID = import.meta.env.PUBLIC_GA_ID || '';
 ---
 
 <head>
@@ -26,4 +32,7 @@ const { title } = Astro.props as HeaderProps;
   </script>
   <link href="/assets/favicon-32x32.png" rel="shortcut icon" type="image/x-icon" />
   <link href="/assets/favicon-32x32.png" rel="apple-touch-icon" />
+
+  <!-- Google Analytics (production only) -->
+  <GoogleAnalytics measurementId={GA_MEASUREMENT_ID} />
 </head>
