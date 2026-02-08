@@ -6,6 +6,18 @@ const BASE_PATH = '/personal-website';
 const withBase = (path = '') => `${BASE_PATH}/${path.replace(/^\/+/, '')}`;
 const lang = Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'zh';
 const isEn = lang === 'en';
+
+const heroStats = isEn
+  ? [
+      { value: '500W+', label: 'Pipeline Opportunity' },
+      { value: '5+', label: 'Major Product Iterations' },
+      { value: '1500+', label: 'Monthly Platform Users' }
+    ]
+  : [
+      { value: '500W+', label: '潜在线索商机' },
+      { value: '5+', label: '核心版本迭代' },
+      { value: '1500+', label: '月活平台用户' }
+    ];
 ---
 
 <!DOCTYPE html>
@@ -17,15 +29,32 @@ const isEn = lang === 'en';
       <nav class="main">
         <div class="container">
           <main class="fold-content-container">
-            <div class="fold-content">
-              <h1>{isEn ? "Hi, I'm You Jiangbin.\nAI Product Manager & Builder." : "你好，我是尤江彬。\nAI产品经理 & 开发者。"}</h1>
+            <div class="fold-content hero-panel">
+              <div class="hero-kicker">{isEn ? 'AI PRODUCT LEAD · AGENT ERA' : 'AI 产品负责人 · AGENT 时代'}</div>
+              <h1>
+                {isEn
+                  ? 'Building enterprise AI agents\nfrom idea to real-world value.'
+                  : '把企业级 AI 智能体\n从想法做到真实价值。'}
+              </h1>
               <p class="lead">
                 {isEn
-                  ? 'B.S. from Zhejiang University, M.Eng. from UCAS (Institute of Remote Sensing). Currently AI Product Manager at China Telecom AI, leading agent products from strategy to launch. Passionate about turning LLM capability into real-world impact.'
-                  : '浙江大学本科，中科院遥感所硕士。现任中国电信 AI 公司产品经理，负责智能体产品从规划到落地。热衷探索大模型应用，把想法变成真正可用的产品。'}
+                  ? 'B.S. from Zhejiang University, M.Eng. from UCAS (Institute of Remote Sensing). Currently AI Product Manager at China Telecom AI, leading agent products from strategy to launch. Focused on turning LLM capability into measurable business outcomes.'
+                  : '浙江大学本科，中科院遥感所硕士。现任中国电信 AI 公司产品经理，负责智能体产品从战略规划、研发协同到落地迭代，持续把大模型能力转化为可衡量的业务价值。'}
               </p>
+
+              <div class="hero-stats">
+                {heroStats.map((item) => (
+                  <div class="hero-stat-item">
+                    <div class="hero-stat-value">{item.value}</div>
+                    <div class="hero-stat-label">{item.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-            <a href="mailto:youjiangbin2011@gmail.com" class="button w-button">{isEn ? 'Contact' : '联系我'}</a>
+            <div class="hero-actions">
+              <a href="mailto:youjiangbin2011@gmail.com" class="button w-button">{isEn ? 'Contact' : '联系我'}</a>
+              <a href={`${withBase('software-development')}${isEn ? '?lang=en' : ''}`} class="button w-button ghost-btn">{isEn ? 'View Selected Work' : '查看代表作品'}</a>
+            </div>
           </main>
           <div class="projects-section">
             <a href={`${withBase('software-development')}${isEn ? '?lang=en' : ''}`} class="projects-container">
