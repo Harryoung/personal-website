@@ -5,62 +5,92 @@ import Sidebar from '../components/Sidebar.astro';
 import '../styles/global.css';
 const BASE_PATH = '/personal-website';
 const withBase = (path = '') => `${BASE_PATH}/${path.replace(/^\/+/, '')}`;
-const projects = [
-  {
-    title: "efka - AI驱动的知识管理系统",
-    desc: [
-      "基于Claude Agent SDK开发的开源知识管理系统，无向量嵌入，Agent驱动",
-      "独特的文件系统架构，让AI代理直接访问和管理个人知识库",
-      "结果更可靠，避免了传统RAG方案的幻觉问题",
-      "GitHub: https://github.com/Harryoung/efka"
-    ],
-    tech: ["Claude Agent SDK", "Python", "文件系统架构", "Agent驱动", "开源"]
-  },
-  {
-    title: "个人网站 (本站)",
-    desc: [
-      "使用Astro + Codefolio主题构建的个人作品集网站",
-      "静态站点生成，SEO友好，快速加载",
-      "展示职业经历、项目作品和个人技能"
-    ],
-    tech: ["Astro", "静态网站", "GitHub Pages"]
-  }
-];
+const lang = Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'zh';
+const isEn = lang === 'en';
+
+const projects = isEn
+  ? [
+      {
+        title: 'efka - Agent-driven Knowledge System',
+        desc: [
+          'Open-source personal knowledge system built with Claude Agent SDK.',
+          'No vector embedding; agents read and operate directly on file-system knowledge.',
+          'GitHub: https://github.com/Harryoung/efka'
+        ],
+        tech: ['Claude Agent SDK', 'Python', 'File-system Architecture', 'Open Source']
+      },
+      {
+        title: 'Issue Bot for PaddleOCR (Hackathon)',
+        desc: [
+          'Built a LangChain-powered bot to auto-reply common issues in repository workflows.',
+          'Demo landed in PaddleOCR repository and received strong feedback during internal hackathon showcase.'
+        ],
+        tech: ['LangChain', 'LLM App', 'Automation', 'Developer Workflow']
+      },
+      {
+        title: 'Portfolio Website (This Site)',
+        desc: [
+          'Built with Astro, optimized for SEO and fast loading.',
+          'Supports bilingual switching and one-click tone theme switching.'
+        ],
+        tech: ['Astro', 'Static Site', 'UI/UX']
+      }
+    ]
+  : [
+      {
+        title: 'efka - AI驱动知识管理系统',
+        desc: [
+          '基于 Claude Agent SDK 的开源知识管理系统。',
+          '不依赖向量嵌入，Agent 直接读写文件系统知识库。',
+          'GitHub: https://github.com/Harryoung/efka'
+        ],
+        tech: ['Claude Agent SDK', 'Python', '文件系统架构', '开源']
+      },
+      {
+        title: 'PaddleOCR Issue Bot（黑客松）',
+        desc: [
+          '使用 LangChain 搭建 issue 自动回复机器人，支持仓库常见问题自动应答。',
+          '项目在百度黑客松展示环节获得较好反馈。'
+        ],
+        tech: ['LangChain', 'LLM应用', '自动化', '开发者工作流']
+      },
+      {
+        title: '个人网站（本站）',
+        desc: [
+          '使用 Astro 构建，兼顾 SEO 与加载性能。',
+          '已支持中英文切换与一键敏感色调切换。'
+        ],
+        tech: ['Astro', '静态网站', 'UI/UX']
+      }
+    ];
 ---
 
 <!DOCTYPE html>
-<html
->
-  <Header title="个人项目 | 尤江彬" />
+<html>
+  <Header title={isEn ? 'Personal Projects | You Jiangbin' : '个人项目 | 尤江彬'} />
   <body>
     <div class="content">
-        <Sidebar selectedItem="personal-projects" />
+      <Sidebar selectedItem="personal-projects" lang={lang} />
       <nav class="main">
         <div class="container">
           <div class="back-nav-container">
-            <a href={withBase()} class="back-nav-button w-inline-block"
-              ><img src={withBase('assets/back.svg')} loading="lazy" alt="" class="back-nav-img" />
-              <div>Back</div></a
-            >
+            <a href={`${withBase()}${isEn ? '?lang=en' : ''}`} class="back-nav-button w-inline-block">
+              <img src={withBase('assets/back.svg')} loading="lazy" alt="" class="back-nav-img" />
+              <div>{isEn ? 'Back' : '返回'}</div>
+            </a>
           </div>
           <div class="content-container">
-            <h1>个人项目</h1>
+            <h1>{isEn ? 'Personal Projects' : '个人项目'}</h1>
             <section class="items-container">
-                <div class="resouce-items">
-                    {projects.map(project => (
-                      <Project 
-                        title={project.title} 
-                        desc={project.desc}
-                        tech={project.tech}
-                      />
-                    ))}
-                  </div>
+              <div class="resouce-items">
+                {projects.map(project => (
+                  <Project title={project.title} desc={project.desc} tech={project.tech} lang={lang} />
+                ))}
+              </div>
             </section>
           </div>
         </div>
       </nav>
     </div>
-
-    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
   </body>
 </html>

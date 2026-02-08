@@ -1,7 +1,9 @@
 ---
-const { selectedItem } = Astro.props;
+const { selectedItem, lang = 'zh' } = Astro.props;
 const BASE_PATH = '/personal-website';
 const withBase = (path = '') => `${BASE_PATH}/${path.replace(/^\/+/, '')}`;
+const withLang = (path = '') => `${withBase(path)}${lang === 'en' ? '?lang=en' : ''}`;
+const isEn = lang === 'en';
 ---
 
 <aside
@@ -14,106 +16,91 @@ const withBase = (path = '') => `${BASE_PATH}/${path.replace(/^\/+/, '')}`;
   class="sidebar w-nav"
 >
   <div class="nav-content">
-    <a href={withBase()} class="w-nav-brand" aria-label="home">
+    <a href={withLang()} class="w-nav-brand" aria-label="home">
       <div class="niv-data">
         <img
-          src={withBase('assets/sam.jpg')}
+          src={withBase('assets/avatar.jpg')}
           loading="eager"
           alt="Profile picture"
           class="niv-image"
         />
         <div>
           <div class="label-white">尤江彬</div>
-          <div class="label-gray">AI产品经理</div>
+          <div class="label-gray">{isEn ? 'AI Product Manager' : 'AI产品经理'}</div>
         </div>
       </div>
     </a>
 
+    <div class="switcher-row">
+      <button id="theme-toggle" class="switch-btn" type="button">
+        {isEn ? 'Theme' : '色调'}
+      </button>
+      <button id="lang-toggle" class="switch-btn" type="button">
+        {isEn ? '中文' : 'EN'}
+      </button>
+    </div>
+
     <nav role="navigation" class="w-nav-menu">
-      <a
-        href={withBase()}
-        class={`nav-link-container w-inline-block ${
-          selectedItem === 'home' ? 'w--current' : ''
-        }`}
-      >
-        <img
-          src={withBase('assets/home.svg')}
-          loading="eager"
-          alt=""
-          class="nav-link-image"
-        />
-        <div>首页</div>
+      <a href={withLang()} class={`nav-link-container w-inline-block ${selectedItem === 'home' ? 'w--current' : ''}`}>
+        <img src={withBase('assets/home.svg')} loading="eager" alt="" class="nav-link-image" />
+        <div>{isEn ? 'Home' : '首页'}</div>
       </a>
       <a
-        href={withBase('software-development')}
-        class={`nav-link-container w-inline-block ${
-          selectedItem === 'software-development' ? 'w--current' : ''
-        }`}
-        aria-current={
-          selectedItem === 'software-development' ? 'page' : undefined
-        }
+        href={withLang('software-development')}
+        class={`nav-link-container w-inline-block ${selectedItem === 'software-development' ? 'w--current' : ''}`}
+        aria-current={selectedItem === 'software-development' ? 'page' : undefined}
       >
-        <img
-          src={withBase('assets/code.svg')}
-          loading="eager"
-          alt=""
-          class="nav-link-image"
-        />
-        <div>AI产品管理</div>
+        <img src={withBase('assets/code.svg')} loading="eager" alt="" class="nav-link-image" />
+        <div>{isEn ? 'AI Product Management' : 'AI产品管理'}</div>
       </a>
-      <a
-        href={withBase('personal-projects')}
-        class={`nav-link-container w-inline-block ${
-          selectedItem === 'personal-projects' ? 'w--current' : ''
-        }`}
-      >
-        <img
-          src={withBase('assets/favorite.svg')}
-          loading="eager"
-          alt=""
-          class="nav-link-image"
-        />
-        <div>个人项目</div>
+      <a href={withLang('personal-projects')} class={`nav-link-container w-inline-block ${selectedItem === 'personal-projects' ? 'w--current' : ''}`}>
+        <img src={withBase('assets/favorite.svg')} loading="eager" alt="" class="nav-link-image" />
+        <div>{isEn ? 'Personal Projects' : '个人项目'}</div>
       </a>
-      <a
-        href="https://github.com/Harryoung"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="nav-link-container w-inline-block"
-      >
-        <img
-          src={withBase('assets/dns.svg')}
-          loading="eager"
-          alt=""
-          class="nav-link-image"
-        />
+      <a href="https://github.com/Harryoung" target="_blank" rel="noopener noreferrer" class="nav-link-container w-inline-block">
+        <img src={withBase('assets/dns.svg')} loading="eager" alt="" class="nav-link-image" />
         <div>GitHub</div>
       </a>
     </nav>
 
-    <div
-      class="navbar-icon-button w-nav-button"
-      style="-webkit-user-select: text;"
-      aria-label="menu"
-      role="button"
-      tabindex="0"
-    >
-      <img
-        src={withBase('assets/menu.svg')}
-        loading="eager"
-        alt=""
-        class="navbar-icon"
-      />
+    <div class="navbar-icon-button w-nav-button" style="-webkit-user-select: text;" aria-label="menu" role="button" tabindex="0">
+      <img src={withBase('assets/menu.svg')} loading="eager" alt="" class="navbar-icon" />
     </div>
   </div>
 
   <script>
     import { setupNav } from '../scripts/nav.js';
-    
+
     let cleanup;
     document.addEventListener('astro:page-load', () => {
       if (cleanup) cleanup();
       cleanup = setupNav();
+
+      const root = document.documentElement;
+      const savedTheme = localStorage.getItem('theme-mode') || 'dark';
+      root.setAttribute('data-theme', savedTheme);
+
+      const themeBtn = document.getElementById('theme-toggle');
+      if (themeBtn) {
+        themeBtn.onclick = () => {
+          const next = root.getAttribute('data-theme') === 'soft' ? 'dark' : 'soft';
+          root.setAttribute('data-theme', next);
+          localStorage.setItem('theme-mode', next);
+        };
+      }
+
+      const langBtn = document.getElementById('lang-toggle');
+      if (langBtn) {
+        langBtn.onclick = () => {
+          const url = new URL(window.location.href);
+          if (url.searchParams.get('lang') === 'en') {
+            url.searchParams.delete('lang');
+          } else {
+            url.searchParams.set('lang', 'en');
+          }
+          window.location.href = url.toString();
+        };
+      }
     });
 
     document.addEventListener('astro:before-swap', () => {

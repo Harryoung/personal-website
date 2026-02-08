@@ -4,68 +4,65 @@ import Sidebar from "../components/Sidebar.astro";
 import '../styles/global.css';
 const BASE_PATH = '/personal-website';
 const withBase = (path = '') => `${BASE_PATH}/${path.replace(/^\/+/, '')}`;
+const lang = Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'zh';
+const isEn = lang === 'en';
 ---
 
-
 <!DOCTYPE html>
-<html
->
-  <Header title="尤江彬 | You Jiangbin" />
+<html>
+  <Header title={isEn ? "You Jiangbin | Portfolio" : "尤江彬 | 个人网站"} />
   <body>
     <div class="content">
-      <Sidebar selectedItem="home" />
+      <Sidebar selectedItem="home" lang={lang} />
       <nav class="main">
         <div class="container">
           <main class="fold-content-container">
             <div class="fold-content">
-              <h1>Hi, I'm You Jiangbin.<br />AI产品经理 & 开发者。</h1>
+              <h1>{isEn ? "Hi, I'm You Jiangbin.\nAI Product Manager & Builder." : "你好，我是尤江彬。\nAI产品经理 & 开发者。"}</h1>
               <p class="lead">
-                浙江大学本科，中科院遥感所硕士。中国电信AI公司产品经理，负责星辰·偕作（超级智能体本地端）。
-热衷探索AI与大模型应用，推动产品创新与技术落地。INTJ，终身学习者。
+                {isEn
+                  ? 'B.S. from Zhejiang University, M.Eng. from UCAS (Institute of Remote Sensing). Currently AI Product Manager at China Telecom AI, leading agent products from strategy to launch. Passionate about turning LLM capability into real-world impact.'
+                  : '浙江大学本科，中科院遥感所硕士。现任中国电信 AI 公司产品经理，负责智能体产品从规划到落地。热衷探索大模型应用，把想法变成真正可用的产品。'}
               </p>
             </div>
-            <a href="mailto:your.email@example.com" class="button w-button">Contact</a>
+            <a href="mailto:youjiangbin2011@gmail.com" class="button w-button">{isEn ? 'Contact' : '联系我'}</a>
           </main>
           <div class="projects-section">
-            <!-- AI Product Management -->
-            <a href={withBase('software-development')} class="projects-container">
+            <a href={`${withBase('software-development')}${isEn ? '?lang=en' : ''}`} class="projects-container">
               <div class="single-projects-category">
                 <div class="projects-category-image-container">
                   <img src={withBase('assets/browser.svg')} loading="lazy" alt="" class="projects-category-image" />
                 </div>
               </div>
               <div class="single-projects-content">
-                <h4>AI产品管理</h4>
+                <h4>{isEn ? 'AI Product Management' : 'AI产品管理'}</h4>
                 <div class="tech-tools-container">
-                  <div class="mini-label-white gray-color">技术栈 &amp; 工具</div>
+                  <div class="mini-label-white gray-color">{isEn ? 'Highlights' : '重点方向'}</div>
                   <div class="chips-container chips-container-small-width">
-                    <div class="single-chip small-chip">大模型应用开发</div>
-                    <div class="single-chip small-chip">Claude Agent SDK</div>
-                    <div class="single-chip small-chip">Python</div>
-                    <div class="single-chip small-chip">产品架构设计</div>
-                    <div class="single-chip small-chip">AI工作流</div>
-                    <div class="single-chip small-chip">Prompt Engineering</div>
+                    <div class="single-chip small-chip">{isEn ? 'Super Agent (Cloud)' : '超级智能体（云端）'}</div>
+                    <div class="single-chip small-chip">{isEn ? 'Agent Platform' : '智能体平台'}</div>
+                    <div class="single-chip small-chip">LLMOps</div>
+                    <div class="single-chip small-chip">{isEn ? 'Product Architecture' : '产品架构设计'}</div>
+                    <div class="single-chip small-chip">{isEn ? 'Workflow Design' : 'AI工作流'}</div>
                   </div>
                 </div>
               </div>
             </a>
-            <!-- Personal Projects -->
-            <a href={withBase('personal-projects')} class="projects-container">
+            <a href={`${withBase('personal-projects')}${isEn ? '?lang=en' : ''}`} class="projects-container">
               <div class="single-projects-category">
                 <div class="projects-category-image-container devops-img">
                   <img src={withBase('assets/database.svg')} loading="lazy" alt="" class="projects-category-image" />
                 </div>
               </div>
               <div class="single-projects-content">
-                <h4>个人项目</h4>
+                <h4>{isEn ? 'Personal Projects' : '个人项目'}</h4>
                 <div class="tech-tools-container">
-                  <div class="mini-label-white gray-color">技术栈 &amp; 工具</div>
+                  <div class="mini-label-white gray-color">{isEn ? 'Stack' : '技术栈'}</div>
                   <div class="chips-container chips-container-small-width">
                     <div class="single-chip small-chip">Astro</div>
-                    <div class="single-chip small-chip">知识管理</div>
-                    <div class="single-chip small-chip">Agent驱动</div>
-                    <div class="single-chip small-chip">文件系统架构</div>
-                    <div class="single-chip small-chip">开源贡献</div>
+                    <div class="single-chip small-chip">{isEn ? 'Knowledge Management' : '知识管理'}</div>
+                    <div class="single-chip small-chip">{isEn ? 'Agent-driven' : 'Agent驱动'}</div>
+                    <div class="single-chip small-chip">{isEn ? 'Open Source' : '开源贡献'}</div>
                   </div>
                 </div>
               </div>
@@ -74,7 +71,5 @@ const withBase = (path = '') => `${BASE_PATH}/${path.replace(/^\/+/, '')}`;
         </div>
       </nav>
     </div>
-
-    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
   </body>
 </html>

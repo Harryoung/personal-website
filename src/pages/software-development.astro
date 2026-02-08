@@ -5,71 +5,116 @@ import Sidebar from "../components/Sidebar.astro";
 import '../styles/global.css';
 const BASE_PATH = '/personal-website';
 const withBase = (path = '') => `${BASE_PATH}/${path.replace(/^\/+/, '')}`;
-const projects = [
-  {
-    title: "星辰·偕作 (超级智能体本地端)",
-    desc: [
-      "全面负责产品规划与推进，对标Claude Cowork，主打toB办公提效场景",
-      "推动产品架构重构，优化用户体验与系统性能",
-      "深入理解大模型能力边界，设计符合实际业务场景的AI工作流",
-      "协调技术、设计、运营团队，推动产品快速迭代落地"
-    ],
-    tech: ["大模型应用开发", "AI产品管理", "产品架构", "工作流设计", "跨团队协作"]
-  },
-  {
-    title: "飞桨技术产品经理 (百度 P5)",
-    desc: [
-      "负责飞桨(PaddlePaddle)深度学习框架的技术产品工作",
-      "推动AI开发者生态建设，优化开发者体验",
-      "参与技术文档、教程体系的完善与推广"
-    ],
-    tech: ["深度学习框架", "开发者生态", "技术文档", "AI推广"]
-  },
-  {
-    title: "AI遥感室主任 (中国资源卫星应用中心)",
-    desc: [
-      "负责遥感卫星地面系统的AI能力建设",
-      "领导团队开发遥感影像智能处理与分析系统",
-      "推动深度学习在遥感领域的落地应用"
-    ],
-    tech: ["遥感技术", "深度学习", "团队管理", "系统架构", "Python"]
-  }
-];
+const lang = Astro.url.searchParams.get('lang') === 'en' ? 'en' : 'zh';
+const isEn = lang === 'en';
+
+const projects = isEn
+  ? [
+      {
+        title: 'Super Agent (Cloud) | Product Lead',
+        desc: [
+          'Built from 0 to 1 as a cloud-native enterprise agent product with research, deep analysis, and PPT generation capabilities.',
+          'Product URL: https://agent.teleai.com.cn/super-agent',
+          'Recognized in 2025 enterprise agent rankings; ranked top among central SOE products.',
+          'Drove end-to-end delivery with codex/Claude Code assisted product prototyping and workflow design.'
+        ],
+        tech: ['Agent Product', 'LLMOps', 'Prompt/Context Engineering', 'Cross-team Delivery']
+      },
+      {
+        title: 'Xiezuo (Local Super Agent) | Building',
+        desc: [
+          'Positioned for private deployment and office productivity scenarios, benchmarked against top AI coworking products.',
+          'Status: currently in build and not publicly released yet.',
+          'Responsible for roadmap, architecture evolution, and rapid iteration loop.'
+        ],
+        tech: ['ToB Product', 'Private Deployment', 'Product Planning', 'Architecture Evolution']
+      },
+      {
+        title: 'Paddle Technical Product Manager',
+        desc: [
+          'Led product work for PaddleCloud and LLM full-process development modules (data, training, compression, deployment, evaluation).',
+          'Supported 1,500+ internal users and ~15k training jobs per month.',
+          'Drove PaddleX from 0 to 1 across cloud and local editions, with enterprise commercialization progress.'
+        ],
+        tech: ['PaddleCloud', 'PaddleX', 'AI Platform', 'Developer Experience']
+      },
+      {
+        title: 'AI Remote Sensing R&D Lead',
+        desc: [
+          'Built and led an 8-member AI team for remote sensing CV applications (segmentation/detection/change detection).',
+          'Delivered major breakthroughs integrated into production platform and industry projects.',
+          'Planned AI middle-platform architecture and space-time sample library on private cloud.'
+        ],
+        tech: ['Remote Sensing AI', 'Team Leadership', 'Private Cloud', 'Computer Vision']
+      }
+    ]
+  : [
+      {
+        title: '超级智能体（云端）| 产品负责人',
+        desc: [
+          '从0到1建设企业级云端智能体，具备深度调研、数据处理分析、PPT生成等通用能力。',
+          '产品地址：https://agent.teleai.com.cn/super-agent',
+          '入选 2025 企业级智能体榜单，央企产品中排名领先。',
+          '在产品设计与原型阶段大量引入 codex / Claude Code 提升迭代效率。'
+        ],
+        tech: ['智能体产品', 'LLMOps', 'Prompt/Context Engineering', '跨团队交付']
+      },
+      {
+        title: '星辰·偕作（超级智能体本地端）| 构建中',
+        desc: [
+          '面向 toB 办公提效与私有化部署场景，对标头部 AI 协作产品。',
+          '当前状态：正在 build 构建中，尚未正式发布。',
+          '负责路线规划、架构演进与迭代推进。'
+        ],
+        tech: ['ToB产品', '私有化交付', '产品规划', '架构演进']
+      },
+      {
+        title: '飞桨技术产品经理',
+        desc: [
+          '负责 PaddleCloud 与文心大模型全流程开发模块（数据、训练、压缩、部署、评估）的产品设计与迭代。',
+          '服务百度内部 1500+ 用户，月均支持约 1.5 万训练任务。',
+          '推动 PaddleX 云端与本地端从 0 到 1 落地，并形成企业商业化进展。'
+        ],
+        tech: ['PaddleCloud', 'PaddleX', 'AI开发平台', '开发者体验']
+      },
+      {
+        title: 'AI遥感研发负责人',
+        desc: [
+          '组建并带领 8 人 AI 团队，推进遥感语义分割、目标检测、变化检测等能力落地。',
+          '关键成果集成到生产平台并服务多行业场景。',
+          '负责私有云 AI 中台与时空样本库的规划设计。'
+        ],
+        tech: ['遥感AI', '团队管理', '私有云', '计算机视觉']
+      }
+    ];
 ---
 
 <!DOCTYPE html>
-<html
->
-  <Header title="AI产品管理 | 尤江彬" />
+<html>
+  <Header title={isEn ? 'AI Product Management | You Jiangbin' : 'AI产品管理 | 尤江彬'} />
   <body>
     <div class="content">
-        <Sidebar selectedItem="software-development" />
+      <Sidebar selectedItem="software-development" lang={lang} />
       <nav class="main">
         <div class="container">
           <div class="back-nav-container">
-            <a href={withBase()} class="back-nav-button w-inline-block"
-              ><img src={withBase('assets/back.svg')} loading="lazy" alt="" class="back-nav-img" />
-              <div>Back</div></a
-            >
+            <a href={`${withBase()}${isEn ? '?lang=en' : ''}`} class="back-nav-button w-inline-block">
+              <img src={withBase('assets/back.svg')} loading="lazy" alt="" class="back-nav-img" />
+              <div>{isEn ? 'Back' : '返回'}</div>
+            </a>
           </div>
           <div class="content-container">
-            <h1>AI产品管理</h1>
+            <h1>{isEn ? 'AI Product Management' : 'AI产品管理'}</h1>
             <section class="items-container">
-                <div class="resouce-items">
-                    {projects.map(project => (
-                      <Project 
-                        title={project.title} 
-                        desc={project.desc}
-                        tech={project.tech}
-                      />
-                    ))}
-                  </div>
+              <div class="resouce-items">
+                {projects.map(project => (
+                  <Project title={project.title} desc={project.desc} tech={project.tech} lang={lang} />
+                ))}
+              </div>
             </section>
           </div>
         </div>
       </nav>
     </div>
-
-    <!--[if lte IE 9]><script src="//cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif]-->
   </body>
 </html>
